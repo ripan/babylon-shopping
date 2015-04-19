@@ -1,0 +1,5 @@
+<h4 class="text-muted">Search results for <b>"<%=params[:keyword]%>"</b>
+<%= link_to 'Back to product list', products_url, :class => 'pull-right'%>
+</h4>
+
+<%=render :partial => 'products/list'%>
