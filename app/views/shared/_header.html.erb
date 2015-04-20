@@ -23,6 +23,12 @@
 
       <ul class="nav navbar-nav navbar-right">
         <%if user_signed_in?%>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to 'New Product', new_product_path %></li>
+          </ul>
+        </li>
         <%unless current_user.cart.nil?%>
         <li><%= link_to "Cart items: #{current_user.cart.carts_products.sum(:quantity)}", carts_products_url %></li>
         <%else%>

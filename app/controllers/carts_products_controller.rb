@@ -1,10 +1,12 @@
 class CartsProductsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_carts_product, only: [:show, :edit, :update, :destroy]
 
   # GET /carts_products
   # GET /carts_products.json
   def index
-    @carts_products = CartsProduct.all
+    @carts_products = current_user.cart.carts_products
+    @cart_total = @carts_products.collect{|cp| cp.product.price*cp.quantity}.sum
   end
 
   # GET /carts_products/1
