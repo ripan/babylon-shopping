@@ -23,6 +23,11 @@
 
       <ul class="nav navbar-nav navbar-right">
         <%if user_signed_in?%>
+        <%if current_user.cart%>
+        <li><a href="#"><%=current_user.cart.products%></a></li>
+        <%else%>
+        <li><a>Cart Items: 0</a></li>
+        <%end%>
         <li><a href="#"><%=current_user.email%></a></li>
         <li class="active"><%= link_to 'Sign out', destroy_user_session_path, :method=>'delete' %></li>
         <li></li>
