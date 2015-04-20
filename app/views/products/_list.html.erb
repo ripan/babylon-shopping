@@ -5,6 +5,7 @@
       <th>Name</th>
       <th>Description</th>
       <th>Price</th>
+      <th>Quantity</th>
       <th></th>
     </tr>
   </thead>
@@ -16,7 +17,13 @@
       <td><%= link_to product.name, product %></td>
       <td><%= product.description %></td>
       <td><%= number_to_currency(product.price) %></td>
-      <td><%= link_to 'Add to Basket', product, :class=>"btn btn-success btn-sm pull-right" %></td>
+      <td>
+        <%= form_tag('/carts_products') do |f| %>
+        <%= hidden_field_tag :product_id, product.id %>
+        <%=select_tag :quantity, options_for_select((0..10).to_a, 1)%>
+        <%= submit_tag  'Add to Basket', :class=>"btn btn-success btn-sm pull-right"%>
+        <% end %>
+      </td>
     </tr>
     <% end %>
   </tbody>

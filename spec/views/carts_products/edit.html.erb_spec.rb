@@ -4,7 +4,8 @@ RSpec.describe "carts_products/edit", :type => :view do
   before(:each) do
     @carts_product = assign(:carts_product, CartsProduct.create!(
       :cart_id => 1,
-      :product_id => 1
+      :product_id => 1,
+      :quantity => 1
     ))
   end
 
@@ -16,6 +17,8 @@ RSpec.describe "carts_products/edit", :type => :view do
       assert_select "input#carts_product_cart_id[name=?]", "carts_product[cart_id]"
 
       assert_select "input#carts_product_product_id[name=?]", "carts_product[product_id]"
+
+      assert_select "input#carts_product_quantity[name=?]", "carts_product[quantity]"
     end
   end
 end

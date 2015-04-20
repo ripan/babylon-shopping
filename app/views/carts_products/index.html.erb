@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Carts Products</h1>
+<h1>Listing Cart Products</h1>
 
-<table>
+<table class="table table-condensed table-striped">
   <thead>
     <tr>
-      <th>Cart</th>
       <th>Product</th>
+      <th>Quantity</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,16 +14,13 @@
   <tbody>
     <% @carts_products.each do |carts_product| %>
       <tr>
-        <td><%= carts_product.cart_id %></td>
-        <td><%= carts_product.product_id %></td>
-        <td><%= link_to 'Show', carts_product %></td>
-        <td><%= link_to 'Edit', edit_carts_product_path(carts_product) %></td>
-        <td><%= link_to 'Destroy', carts_product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to carts_product.product.name, carts_product %></td>
+        <td><%= carts_product.quantity %></td>
+        <td><%= link_to 'Edit quantity', edit_carts_product_path(carts_product) %></td>
+        <td><%= link_to 'Remove', carts_product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Carts product', new_carts_product_path %>

@@ -11,15 +11,15 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :cart_id %><br>
-    <%= f.number_field :cart_id %>
-  </div>
-  <div class="field">
+  <div class="form-group">
     <%= f.label :product_id %><br>
-    <%= f.number_field :product_id %>
+    <%= @carts_product.product.name %>
+  </div>
+  <div class="form-group">
+    <%= f.label :quantity %><br>
+    <%= f.number_field :quantity %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Update Quantity', :class=>"btn btn-primary"%>
   </div>
 <% end %>

@@ -24,11 +24,23 @@ class CartsProductsController < ApplicationController
   # POST /carts_products
   # POST /carts_products.json
   def create
-    @carts_product = CartsProduct.new(carts_product_params)
+
+    if current_user.cart.nil?
+      current_user_cart = current_user.build_cart
+      current_user_cart.save
+    else
+      current_user_cart = current_user.cart
+    end
+
+    @carts_product = CartsProduct.new
+    @carts_product.cart_id = current_user_cart.id
+    @carts_product.product_id = params[:product_id]
+    @carts_product.quantity = params[:quantity]
+
 
     respond_to do |format|
       if @carts_product.save
-        format.html { redirect_to @carts_product, notice: 'Carts product was successfully created.' }
+        format.html { redirect_to carts_products_url, notice: 'Product was successfully added.' }
         format.json { render :show, status: :created, location: @carts_product }
       else
         format.html { render :new }
@@ -42,7 +54,7 @@ class CartsProductsController < ApplicationController
   def update
     respond_to do |format|
       if @carts_product.update(carts_product_params)
-        format.html { redirect_to @carts_product, notice: 'Carts product was successfully updated.' }
+        format.html { redirect_to carts_products_url, notice: 'Quantity was successfully updated.' }
         format.json { render :show, status: :ok, location: @carts_product }
       else
         format.html { render :edit }
@@ -69,6 +81,6 @@ class CartsProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def carts_product_params
-      params.require(:carts_product).permit(:cart_id, :product_id)
+      params.require(:carts_product).permit(:cart_id, :product_id, :quantity)
     end
 end
