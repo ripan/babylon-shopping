@@ -24,7 +24,7 @@
       <ul class="nav navbar-nav navbar-right">
         <%if user_signed_in?%>
         <%unless current_user.cart.nil?%>
-        <li><%= link_to "Cart items: #{current_user.cart.carts_products.count}", carts_products_url %></li>
+        <li><%= link_to "Cart items: #{current_user.cart.carts_products.sum(:quantity)}", carts_products_url %></li>
         <%else%>
         <li><a>Cart Items: 0</a></li>
         <%end%>
