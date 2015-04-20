@@ -6,7 +6,7 @@ class CartsProductsController < ApplicationController
   # GET /carts_products.json
   def index
     @carts_products = current_user.cart.carts_products
-    @cart_total = @carts_products.collect{|cp| cp.product.price*cp.quantity}.sum
+    @cart_total = cart_total
   end
 
   # GET /carts_products/1
@@ -79,6 +79,10 @@ class CartsProductsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_carts_product
       @carts_product = CartsProduct.find(params[:id])
+    end
+
+    def cart_total
+      @carts_products.collect{|cp| cp.product.price*cp.quantity}.sum
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
