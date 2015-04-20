@@ -13,26 +13,47 @@
   </thead>
 
   <tbody>
-    <% @carts_products.each do |carts_product| %>
-    <tr>
-      <td><%= link_to carts_product.product.name, carts_product %></td>
-      <td><%= number_to_currency(carts_product.product.price) %></td>
-      <td><%= carts_product.quantity %></td>
-      <td class="currency-format"><%= number_to_currency(carts_product.item_price_by_quantity) %></td>
-      <td>
-        <div class="pull-right">
+   <%if false%>
+   <% @carts_products.each do |carts_product| %>
+   <tr>
+    <td><%= link_to carts_product.product.name, carts_product %></td>
+    <td><%= number_to_currency(carts_product.product.price) %></td>
+    <td><%= carts_product.quantity %></td>
+    <td class="currency-format"><%= number_to_currency(carts_product.item_price_by_quantity) %></td>
+    <td>
+      <div class="pull-right">
         <%= link_to 'Change quantity', edit_carts_product_path(carts_product), :class=>"btn btn-info btn-sm"%>
         <%= link_to 'Remove', carts_product, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"btn btn-danger btn-sm" %>
-        </div>
-      </td>
-    </tr>
-    <% end %>
-    <tr>
-      <td colspan="3"></td>
-      <td class="currency-format"><b><%=number_to_currency(@cart_total)%></b></td>
-      <td></td>
-    </tr>
-  </tbody>
+      </div>
+    </td>
+  </tr>
+  <% end %>
+  <% end %>
+
+
+  <% @carts_products.group_by(&:product).each do |product, carts_product| %>
+  <%quantity = carts_product.collect(&:quantity).sum%>
+  <tr>
+    <td><%= link_to product.name, product%></td>
+    <td><%= number_to_currency(product.price) %></td>
+    <td><%=quantity%></td>
+    <td class="currency-format"><%=number_to_currency(product.price * quantity)%></td>
+
+    <td>
+      <div class="pull-right">
+        <%= link_to 'Change quantity', edit_carts_product_path(carts_product), :class=>"btn btn-info btn-sm"%>
+        <%= link_to 'Remove', carts_product.first, method: :delete, data: { confirm: 'Are you sure?' }, :class=>"btn btn-danger btn-sm"%>
+      </div>
+    </td>
+  </tr>
+  <% end %>
+
+  <tr>
+    <td colspan="3"></td>
+    <td class="currency-format"><b><%=number_to_currency(@cart_total)%></b></td>
+    <td></td>
+  </tr>
+</tbody>
 </table>
 
 <hr>

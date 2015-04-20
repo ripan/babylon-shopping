@@ -42,7 +42,7 @@ class CartsProductsController < ApplicationController
 
     respond_to do |format|
       if @carts_product.save
-        format.html { redirect_to carts_products_url, notice: 'Product was successfully added.' }
+        format.html { redirect_to :back, notice: 'Product was successfully added.' }
         format.json { render :show, status: :created, location: @carts_product }
       else
         format.html { render :new }
