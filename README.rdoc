@@ -1,28 +1,29 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RubyGems Environment:
+  - RUBYGEMS VERSION: 2.4.6
+  - RUBY VERSION: 2.0.0 (2015-02-25 patchlevel 643) [x86_64-darwin14.1.0]
+  - RUBYGEMS PLATFORMS:
+    - ruby
+    - x86_64-darwin-14
+  - REMOTE SOURCES:
+     - https://rubygems.org/
 
-Things you may want to cover:
+Rails : 4.2.0
 
-* Ruby version
+Database : Postgres
 
-* System dependencies
+Authentication : Devise
 
-* Configuration
+Github : git@github.com:ripan/babylon-shopping.git
+         https://github.com/ripan/babylon-shopping.git
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Heroku Deployment : https://babylon-shopping.herokuapp.com        
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+There are 2 types of promotional rules that can be applied on a cart
+
+1) Product Promotional Rules (Rules applied on Products)
+2) Misc Promotional Rules (Rules applied on Cart, User)     
+
+System is very much flexible to apply/change rules.
