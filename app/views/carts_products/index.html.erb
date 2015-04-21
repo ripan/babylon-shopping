@@ -4,6 +4,7 @@
 <table class="table table-condensed table-striped">
   <thead>
     <tr>
+      <th>Code</th>
       <th>Product</th>
       <th>Price</th>
       <th>Quantity</th>
@@ -16,6 +17,7 @@
    <%if false%>
    <% @carts_products.each do |carts_product| %>
    <tr>
+    <td><%= link_to carts_product.product.code, carts_product %></td>
     <td><%= link_to carts_product.product.name, carts_product %></td>
     <td><%= number_to_currency(carts_product.product.price) %></td>
     <td><%= carts_product.quantity %></td>
@@ -34,6 +36,7 @@
   <% @carts_products.group_by(&:product).each do |product, carts_product| %>
   <%quantity = carts_product.collect(&:quantity).sum%>
   <tr>
+    <td><%= link_to product.code, product%></td>
     <td><%= link_to product.name, product%></td>
     <td><%= number_to_currency(product.price) %></td>
     <td><%=quantity%></td>
@@ -49,10 +52,27 @@
   <% end %>
 
   <tr>
-    <td colspan="3"></td>
+    <td colspan="4"></td>
     <td class="currency-format"><b><%=number_to_currency(@cart_total)%></b></td>
-    <td></td>
+    <td> <div class="pull-right">Total </div></td>
   </tr>
+
+  <tr>
+    <td colspan="4"></td>
+    <td class="currency-format"><b><%=number_to_currency(@cart_total_after_discounted_items)%></b></td>
+    <td>
+      <div class="pull-right">Discount on items: <%=@cart_items_discount%> % </div>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="4"></td>
+    <td class="currency-format"><b><%=number_to_currency(@cart_total_after_discount)%></b></td>
+    <td>
+      <div class="pull-right">Discount on total: <%=@cart_discount_percentage%> % </div>
+    </td>
+  </tr>
+
 </tbody>
 </table>
 

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :misc_promotional_rules
+
   resources :promotional_rules
 
   resources :carts_products

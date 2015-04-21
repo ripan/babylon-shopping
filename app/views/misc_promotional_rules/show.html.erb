@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @misc_promotional_rule.name %>
+</p>
+
+<p>
+  <strong>Discount percentage:</strong>
+  <%= @misc_promotional_rule.discount_percentage %> %
+</p>
+
+<p>
+  <strong>Discount price:</strong>
+  <%= number_to_currency @misc_promotional_rule.discount_price %>
+</p>
+
+<%= link_to 'Edit', edit_misc_promotional_rule_path(@misc_promotional_rule) %> |
+<%= link_to 'Back', misc_promotional_rules_path %>

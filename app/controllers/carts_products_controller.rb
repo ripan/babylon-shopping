@@ -5,8 +5,17 @@ class CartsProductsController < ApplicationController
   # GET /carts_products
   # GET /carts_products.json
   def index
-    @carts_products = current_user.cart.carts_products
+    @carts_products = current_user.cart.carts_products rescue []
     @cart_total = cart_total
+    @cart_total_after_discount = cart_total_after_discount
+    @misc_promotional_rule = MiscPromotionalRule.find_by_name('Cart')
+    @cart_discount_percentage = 0
+    if @misc_promotional_rule
+      @cart_discount_percentage =  @misc_promotional_rule.discount_percentage if cart_total > @misc_promotional_rule.discount_price
+    end
+    @cart_items_discount = 8
+    @cart_total_after_discounted_items = 5
+
   end
 
   # GET /carts_products/1
@@ -76,17 +85,33 @@ class CartsProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_carts_product
-      @carts_product = CartsProduct.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_carts_product
+    @carts_product = CartsProduct.find(params[:id])
+  end
 
-    def cart_total
-      @carts_products.collect{|cp| cp.product.price*cp.quantity}.sum
-    end
+  def cart_total
+    @cart_total = @carts_products.collect{|cp| cp.product.price*cp.quantity}.sum
+    return @cart_total
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def carts_product_params
-      params.require(:carts_product).permit(:cart_id, :product_id, :quantity)
+  def cart_total_after_discount
+    @cart_total_after_discount = cart_total
+    @misc_promotional_rule = MiscPromotionalRule.find_by_name('Cart')
+    if @misc_promotional_rule && (@misc_promotional_rule.discount_percentage > 0) && (cart_total > @misc_promotional_rule.discount_price)
+      @cart_total_after_discount = @cart_total * (100 - @misc_promotional_rule.discount_percentage) / 100
     end
+    return @cart_total_after_discount
+  end
+
+  def cart_total_after_discounted_items
+    @cart_total_after_discounted_items = cart_total
+    return @cart_total_after_discount
+  end
+
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def carts_product_params
+    params.require(:carts_product).permit(:cart_id, :product_id, :quantity)
+  end
 end

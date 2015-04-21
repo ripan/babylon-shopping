@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h3>Listing Misc Promotional Rules</h3>
+
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Discount percentage</th>
+      <th>Discount price</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @misc_promotional_rules.each do |misc_promotional_rule| %>
+    <tr>
+      <td><%= misc_promotional_rule.name %></td>
+      <td><%= misc_promotional_rule.discount_percentage %> %</td>
+      <td><%= number_to_currency(misc_promotional_rule.discount_price) %></td>
+      <td>
+        <div class="pull-right">
+        <%= link_to 'Show', misc_promotional_rule , :class=>"btn btn-success btn-sm"%>
+        <%= link_to 'Edit', edit_misc_promotional_rule_path(misc_promotional_rule) , :class=>"btn btn-info btn-sm"%>
+        <%= link_to 'Destroy', misc_promotional_rule, method: :delete, data: { confirm: 'Are you sure?' } , :class=>"btn btn-danger btn-sm"%>
+        </div>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Misc promotional rule', new_misc_promotional_rule_path %>
