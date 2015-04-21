@@ -1,6 +1,7 @@
 class CartsProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_carts_product, only: [:show, :edit, :update, :destroy]
+  include CartsProductsHelper
 
   # GET /carts_products
   # GET /carts_products.json
@@ -13,8 +14,6 @@ class CartsProductsController < ApplicationController
     if @misc_promotional_rule
       @cart_discount_percentage =  @misc_promotional_rule.discount_percentage if cart_total > @misc_promotional_rule.discount_price
     end
-    @cart_items_discount = 8
-    @cart_total_after_discounted_items = 5
 
   end
 
@@ -91,8 +90,13 @@ class CartsProductsController < ApplicationController
   end
 
   def cart_total
-    @cart_total = @carts_products.collect{|cp| cp.product.price*cp.quantity}.sum
-    return @cart_total
+    cart_total = 0
+    @carts_products.group_by(&:product).each do |product, carts_product|
+      quantity = carts_product.collect(&:quantity).sum
+      product_price = get_discounted_product_price(quantity,product)
+      cart_total += (product_price * quantity)
+    end
+    return cart_total
   end
 
   def cart_total_after_discount
@@ -103,12 +107,6 @@ class CartsProductsController < ApplicationController
     end
     return @cart_total_after_discount
   end
-
-  def cart_total_after_discounted_items
-    @cart_total_after_discounted_items = cart_total
-    return @cart_total_after_discount
-  end
-
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def carts_product_params

@@ -32,15 +32,21 @@
   <% end %>
   <% end %>
 
+  <%cart_total = 0%>
 
   <% @carts_products.group_by(&:product).each do |product, carts_product| %>
-  <%quantity = carts_product.collect(&:quantity).sum%>
+  <% quantity = carts_product.collect(&:quantity).sum%>
+  <% product_price = get_discounted_product_price(quantity,product)%>
   <tr>
     <td><%= link_to product.code, product%></td>
     <td><%= link_to product.name, product%></td>
-    <td><%= number_to_currency(product.price) %></td>
+    <td><%= number_to_currency(product_price) %> | <small>Actual Price: <%=number_to_currency(product.price)%></small></td>
     <td><%=quantity%></td>
-    <td class="currency-format"><%=number_to_currency(product.price * quantity)%></td>
+    <td class="currency-format">
+    <%price_by_quantity = product_price * quantity%>
+    <%cart_total += price_by_quantity%>
+    <%=number_to_currency(price_by_quantity)%>
+    </td>
 
     <td>
       <div class="pull-right">
@@ -53,16 +59,8 @@
 
   <tr>
     <td colspan="4"></td>
-    <td class="currency-format"><b><%=number_to_currency(@cart_total)%></b></td>
+    <td class="currency-format"><b><%=number_to_currency(cart_total)%></b></td>
     <td> <div class="pull-right">Total </div></td>
-  </tr>
-
-  <tr>
-    <td colspan="4"></td>
-    <td class="currency-format"><b><%=number_to_currency(@cart_total_after_discounted_items)%></b></td>
-    <td>
-      <div class="pull-right">Discount on items: <%=@cart_items_discount%> % </div>
-    </td>
   </tr>
 
   <tr>
